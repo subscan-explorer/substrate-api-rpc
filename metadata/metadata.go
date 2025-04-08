@@ -19,6 +19,7 @@ var (
 	latestSpec      = -1
 	RuntimeMetadata = make(map[int]*Instant)
 	Decoder         *scalecodec.MetadataDecoder
+	modules         []string
 )
 
 func Latest(runtime *RuntimeRaw) *Instant {
@@ -81,4 +82,15 @@ func (m *Instant) FindCallCallName(moduleName, callName string) *types.MetadataC
 		}
 	}
 	return nil
+}
+
+func SupportModule() []string {
+	if len(modules) > 0 {
+		return modules
+	}
+	m := Latest(nil)
+	for _, v := range m.Metadata.Modules {
+		modules = append(modules, v.Name)
+	}
+	return modules
 }

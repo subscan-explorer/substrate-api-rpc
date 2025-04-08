@@ -18,7 +18,7 @@ const (
 var client *Client
 
 func init() {
-	websocket.SetEndpoint("wss://rococo-asset-hub-rpc.polkadot.io")
+	websocket.SetEndpoint("wss://asset-hub-westend-rpc.dwellir.com")
 	// websocket init and set metadata
 	_, err := websocket.Init()
 	if err != nil {
