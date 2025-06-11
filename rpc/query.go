@@ -33,7 +33,8 @@ func ReadStorageByKey(p websocket.WsConn, key storageKey.StorageKey, hash string
 		if dataHex == "" {
 			return storage.StateStorage(""), nil
 		}
-		return storage.Decode(dataHex, key.ScaleType, nil)
+		r, _, err = storage.Decode(dataHex, key.ScaleType, nil)
+		return r, err
 	}
 	return
 }

@@ -28,7 +28,7 @@ func (p *PreRuntime) isBabe() bool {
 }
 
 func (p *PreRuntime) getAuraAuthor(sessionValidators []string) string {
-	if rawAuraPreDigestValue, err := storage.Decode(p.Data, "RawAuraPreDigest", nil); err == nil {
+	if rawAuraPreDigestValue, _, err := storage.Decode(p.Data, "RawAuraPreDigest", nil); err == nil {
 		modn := rawAuraPreDigestValue.ToRawAuraPreDigest().SlotNumber % int64(len(sessionValidators))
 		return sessionValidators[modn]
 	}
@@ -36,7 +36,7 @@ func (p *PreRuntime) getAuraAuthor(sessionValidators []string) string {
 }
 
 func (p *PreRuntime) getBabeAuthor(sessionValidators []string) string {
-	if rawBabePreDigestValue, err := storage.Decode(p.Data, "RawBabePreDigest", nil); err == nil {
+	if rawBabePreDigestValue, _, err := storage.Decode(p.Data, "RawBabePreDigest", nil); err == nil {
 		digest := rawBabePreDigestValue.ToRawBabePreDigest()
 		if digest != nil {
 			if digest.Primary != nil {

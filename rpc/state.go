@@ -21,7 +21,8 @@ func ReadStorage(p websocket.WsConn, module, prefix string, hash string, arg ...
 		if dataHex == "" {
 			return "", nil
 		}
-		return storage.Decode(dataHex, key.ScaleType, nil)
+		r, _, err = storage.Decode(dataHex, key.ScaleType, nil)
+		return r, err
 	}
 	return r, err
 

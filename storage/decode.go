@@ -13,15 +13,18 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-func Decode(raw string, decodeType string, option *types.ScaleDecoderOption) (s StateStorage, err error) {
+func Decode(raw string, decodeType string, option *types.ScaleDecoderOption) (s StateStorage, length int, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			err = fmt.Errorf("Recovering from panic in Decode error is: %v \n", r)
 		}
 	}()
 	m := types.ScaleDecoder{}
-	m.Init(scaleBytes.ScaleBytes{Data: util.HexToBytes(raw)}, option)
-	return StateStorage(util.InterfaceToString(m.ProcessAndUpdateData(decodeType))), nil
+	bytes := util.HexToBytes(raw)
+	m.Init(scaleBytes.ScaleBytes{Data: bytes}, option)
+	result := StateStorage(util.InterfaceToString(m.ProcessAndUpdateData(decodeType)))
+	length = len(bytes) - m.Data.GetRemainingLength()
+	return result, length, nil
 }
 
 type StateStorage string
